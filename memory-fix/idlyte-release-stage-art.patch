@@ -1,0 +1,12 @@
+--- a/index.html
++++ b/index.html
+@@ -745,7 +745,8 @@
+ function pk(){
+   const i=(G&&G.planet)||0;
+   if(!PACKS[i])return null;
+-  if(!PACKA[i]){try{PACKA[i]=PACKS[i].init()||{}}catch(e){console.error('art pack '+i+' failed',e);PACKS[i]=null;return null}}
++  if(!PACKA[i]){for(const k in PACKA)if(+k!==i)delete PACKA[k];   /* only the stage being flown keeps its sprites: every stage's art is thousands of canvases, and keeping them all ran a long session into gigabytes. It is rebuilt when that stage is flown again. */
++    try{PACKA[i]=PACKS[i].init()||{}}catch(e){console.error('art pack '+i+' failed',e);PACKS[i]=null;return null}}
+   return PACKA[i];
+ }
+ /* the level clock packs scroll their backgrounds and terrain by; enemies stuck to the terrain must use the same one */
